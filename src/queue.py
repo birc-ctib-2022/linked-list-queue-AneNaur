@@ -78,6 +78,8 @@ class DLList(Generic[T]):
         return f"[{', '.join(elms)}]"
     __repr__ = __str__  # because why not?
 
+class EmptyQueue(Exception):
+    pass
 
 class Queue(Generic[T]):
     """A queue of type-T elements."""
@@ -85,24 +87,37 @@ class Queue(Generic[T]):
     def __init__(self) -> None:
         """Make a new queue."""
         # FIXME: code here
+        self.queue = None
         ...
 
     def is_empty(self) -> bool:
         """Check if this queue is empty."""
         # FIXME: code here
+        return len(self.queue) == 0
         ...
 
     def enqueue(self, x: T) -> None:
         """Add x to the back of this queue."""
         # FIXME: code here
+        self.queue.prepend(x)
         ...
 
     def front(self) -> T:
         """Get the front element of the queue."""
         # FIXME: code here
+        try:
+            return self.queue.get_first()
+        except IndexError:
+            raise EmptyQueue()
         ...
 
     def dequeue(self) -> T:
         """Get the front element, remove it from the queue, and return it."""
         # FIXME: code here
+        try:
+            x = self.queue.get_first()
+            self.queue.remove_first()
+            return x
+        except IndexError:
+            raise EmptyQueue()
         ...
