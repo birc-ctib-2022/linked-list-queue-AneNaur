@@ -102,6 +102,9 @@ class Queue(Generic[T]):
         self.queue.prepend(x) #ved brug af prepend kommer det nye element til venstre for de første, dvs. at det element, der er bagerst i køen er først i listen.
         ...
 
+    def enqueue_back(self, x: T) -> None:
+        self.queue.append(x) #ved brug af append komemr det nye element til højre for de første, dvs. at det nye elemnt er forrest i køen i stedet for bagerst.
+
     def front(self) -> T:
         """Get the front element of the queue."""
         # FIXME: code here
@@ -110,6 +113,12 @@ class Queue(Generic[T]):
         except IndexError:
             raise EmptyQueue()
         ...
+
+    def back(self) -> T:
+        try:
+            return self.queue.get_first()
+        except IndexErorro:
+            raise EmptyQueue()
 
     def dequeue(self) -> T:
         """Get the front element, remove it from the queue, and return it."""
@@ -121,3 +130,11 @@ class Queue(Generic[T]):
         except IndexError:
             raise EmptyQueue()
         ...
+
+    def dequeue_back(self) -> T:
+        try:
+            x = self.queue.get_first()
+            self.queue.remove_first()
+            return x
+        except IndexError:
+            raise EmptyQueue
