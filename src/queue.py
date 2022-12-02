@@ -78,6 +78,8 @@ class DLList(Generic[T]):
         return f"[{', '.join(elms)}]"
     __repr__ = __str__  # because why not?
 
+class EmptyQueue(Exception):
+    pass
 
 class Queue(Generic[T]):
     """A queue of type-T elements."""
@@ -85,24 +87,34 @@ class Queue(Generic[T]):
     def __init__(self) -> None:
         """Make a new queue."""
         # FIXME: code here
+        self.queue = DLList()
         ...
 
     def is_empty(self) -> bool:
         """Check if this queue is empty."""
         # FIXME: code here
+        return self.queue.head is self.queue.head.next
         ...
 
     def enqueue(self, x: T) -> None:
         """Add x to the back of this queue."""
         # FIXME: code here
+        insert_after(self.queue.head.prev, x)
+        #self.queue.prepend(x) #ved brug af prepend kommer det nye element til venstre for de første, dvs. at det element, der er bagerst i køen er først i listen.
         ...
 
     def front(self) -> T:
         """Get the front element of the queue."""
         # FIXME: code here
+        if self.queue is None:
+            raise EmptyQueue
+        return self.queue.head.next.val
         ...
 
     def dequeue(self) -> T:
         """Get the front element, remove it from the queue, and return it."""
         # FIXME: code here
+        temp = self.queue.head.next
+        remove_link(temp)
+        return temp.val
         ...
