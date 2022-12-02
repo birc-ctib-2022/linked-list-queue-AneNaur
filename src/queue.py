@@ -87,54 +87,34 @@ class Queue(Generic[T]):
     def __init__(self) -> None:
         """Make a new queue."""
         # FIXME: code here
-        self.queue = None
+        self.queue = DLList()
         ...
 
     def is_empty(self) -> bool:
         """Check if this queue is empty."""
         # FIXME: code here
-        return len(self.queue) == 0
+        return self.queue.head is self.queue.head.next
         ...
 
     def enqueue(self, x: T) -> None:
         """Add x to the back of this queue."""
         # FIXME: code here
-        self.queue.prepend(x) #ved brug af prepend kommer det nye element til venstre for de første, dvs. at det element, der er bagerst i køen er først i listen.
+        insert_after(self.queue.head.prev, x)
+        #self.queue.prepend(x) #ved brug af prepend kommer det nye element til venstre for de første, dvs. at det element, der er bagerst i køen er først i listen.
         ...
-
-    def enqueue_back(self, x: T) -> None:
-        self.queue.append(x) #ved brug af append komemr det nye element til højre for de første, dvs. at det nye elemnt er forrest i køen i stedet for bagerst.
 
     def front(self) -> T:
         """Get the front element of the queue."""
         # FIXME: code here
-        try:
-            return self.queue.get_last()
-        except IndexError:
-            raise EmptyQueue()
+        if self.queue is None:
+            raise EmptyQueue
+        return self.queue.head.next.val
         ...
-
-    def back(self) -> T:
-        try:
-            return self.queue.get_first()
-        except IndexErorro:
-            raise EmptyQueue()
 
     def dequeue(self) -> T:
         """Get the front element, remove it from the queue, and return it."""
         # FIXME: code here
-        try:
-            x = self.queue.get_last()
-            self.queue.remove_last()
-            return x
-        except IndexError:
-            raise EmptyQueue()
+        temp = self.queue.head.next
+        remove_link(temp)
+        return temp.val
         ...
-
-    def dequeue_back(self) -> T:
-        try:
-            x = self.queue.get_first()
-            self.queue.remove_first()
-            return x
-        except IndexError:
-            raise EmptyQueue
